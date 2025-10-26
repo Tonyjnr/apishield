@@ -1,20 +1,20 @@
 #!/usr/bin/env node
 
-const { loadConfig } = require("./lib/config");
-const fs = require("fs"); // Required for file existence checks
-const path = require("path");
-const chalk = require("chalk");
-const { hideBin } = require("yargs/helpers");
-const yargs = require("yargs");
+import { loadConfig } from "./lib/config.js";
+import fs from "fs"; // Required for file existence checks
+import path from "path";
+import chalk from "chalk";
+import { hideBin } from "yargs/helpers";
+import yargs from "yargs";
 
 // Parsers
-const { parseOpenAPI } = require("./lib/parsers/openapi");
-const { parsePostman, normalizePostman } = require("./lib/parsers/postman");
-const { parseHAR, normalizeHAR } = require("./lib/parsers/har");
-const { scanLiveURL, normalizeProbedResults } = require("./lib/parsers/live");
+import { parseOpenAPI } from "./lib/parsers/openapi.js";
+import { parsePostman, normalizePostman } from "./lib/parsers/postman.js";
+import { parseHAR, normalizeHAR } from "./lib/parsers/har.js";
+import { scanLiveURL, normalizeProbedResults } from "./lib/parsers/live.js";
 
 // Normalizers & Scanners
-const { normalizeSpec, scanSpec } = require("./lib/normalizer");
+import { normalizeSpec, scanSpec } from "./lib/normalizer.js";
 
 /**
  * Detects input type with URL priority
@@ -34,7 +34,7 @@ function detectInputType(input) {
 }
 
 async function main() {
-  const argv = yargs(hideBin(process.argv))
+  const argv = await yargs(hideBin(process.argv))
     .command(
       "scan [file]",
       "Scan API spec, Postman collection, HAR file, or URL for security issues",
@@ -72,10 +72,11 @@ async function main() {
       return true;
     })
     .demandCommand(1, "You must provide a command")
-    .help();
+    .help()
+    .parse();
 
   // Resolve input source
-  const input = argv.url || argv.file || argv._[1];
+  const input = argv.url || argv.file || argv.file;
 
   try {
     const type = detectInputType(input);

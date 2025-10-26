@@ -19,7 +19,7 @@
     "devsecops",
     "api-security"
   ],
-  "type": "commonjs",
+  "type": "module",
   "author": {
     "name": "Onuzulike Anthony Ifechukwu",
     "email": "onuzulikeanthony432@gmail.com"
