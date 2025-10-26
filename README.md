@@ -5,7 +5,7 @@
 APIShield analyzes your OpenAPI/Swagger specs and catches common security issues before they reach production. Perfect for CI/CD pipelines, pre-commit hooks, and local development.
 
 [![npm version](https://img.shields.io/npm/v/@tonyjnr/apishield.svg)](https://www.npmjs.com/package/@tonyjnr/apishield)
-[![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 ---
 
@@ -202,7 +202,7 @@ Found a bug? Have an idea? Contributions welcome!
 
 ```bash
 # Clone the repo
-git clone https://github.com/yourusername/apishield.git
+git clone https://github.com/tonyjnr/apishield.git
 cd apishield
 
 # Install dependencies
@@ -246,7 +246,7 @@ Most API security tools are:
 
 ## 📝 License
 
-ISC © Onuzulike Anthony Ifechukwu
+MIT © Onuzulike Anthony Ifechukwu
 
 ---
 
@@ -260,10 +260,9 @@ Inspired by the OWASP API Security Top 10 and built for the indie dev community.
 
 ## 📬 Support
 
-- 🐛 [Report a bug](https://github.com/yourusername/apishield/issues)
-- 💡 [Request a feature](https://github.com/yourusername/apishield/issues)
+- 🐛 [Report a bug](https://github.com/tonyjnr/apishield/issues)
+- 💡 [Request a feature](https://github.com/tonyjnr/apishield/issues)
 - 📧 Email: <onuzulikeanthony432@gmail.com>
-- 🐦 Twitter: [@yourhandle](https://twitter.com/yourhandle)
 
 ---
 
