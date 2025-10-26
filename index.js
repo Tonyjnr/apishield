@@ -9,6 +9,7 @@ const yargs = require("yargs");
 const { parseOpenAPI } = require("./lib/parsers/openapi");
 const { parsePostman, normalizePostman } = require("./lib/parsers/postman");
 const { parseHAR, normalizeHAR } = require("./lib/parsers/har");
+const { scanLiveURL, normalizeProbedResults } = require("./lib/parsers/live");
 
 // Normalizers & Scanners
 const { normalizeSpec, scanSpec } = require("./lib/normalizer");
@@ -76,13 +77,15 @@ async function main() {
       }
 
       case "url": {
-        console.error(
-          chalk.red("❌ Live URL scanning not supported in v0.4.0")
-        );
-        console.log(
-          chalk.gray("Tip: Export your API as OpenAPI, Postman, or HAR first.")
-        );
-        process.exit(1);
+        console.log(chalk.blue(`🌐 Scanning live API: ${input}`));
+        const liveResult = await scanLiveURL(input);
+
+        if (liveResult.type === "openapi") {
+          normalized = normalizeSpec(liveResult.data);
+        } else {
+          normalized = normalizeProbedResults(liveResult.data);
+        }
+        break;
       }
 
       default: {
