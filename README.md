@@ -11,10 +11,11 @@ APIShield analyzes your OpenAPI/Swagger specs and catches common security issues
 
 ## ✨ Features
 
-- 🔍 **Multi-format support**: OpenAPI 3.x, Swagger 2.0, YAML & JSON
+- 🔍 **Multi-format support**: OpenAPI 3.x, Swagger 2.0, Postman Collections, HAR files, YAML & JSON
+- 🌐 **Live URL scanning**: Scan APIs directly from URLs
 - 🚨 **Security checks**: Missing auth, sensitive data exposure, excessive data leakage
 - ⚡ **Lightning fast**: Scans in milliseconds, perfect for CI/CD
-- 🎯 **Zero config**: Just point it at your spec file
+- ⚙️ **Configurable**: Custom sensitive fields, path ignore patterns, rule settings
 - 🎨 **Beautiful output**: Color-coded issues with actionable fixes
 - 🔧 **CI-friendly**: Exits with error code on issues
 
@@ -40,6 +41,15 @@ apishield scan openapi.yaml
 
 # Scan a Swagger 2.0 file
 apishield scan swagger.json
+
+# Scan a Postman Collection
+apishield scan collection.postman_collection.json
+
+# Scan a HAR file
+apishield scan requests.har
+
+# Scan a live API URL
+apishield scan https://api.example.com/openapi.json
 
 # Verbose mode
 apishield scan api-spec.yaml --verbose
@@ -82,13 +92,13 @@ Scans response schemas for fields that shouldn't be exposed:
 /users/{id}:
   get:
     responses:
-      '200':
+      "200":
         content:
           application/json:
             schema:
               properties:
                 username: string
-                password: string  # 🚨 EXPOSED!
+                password: string # 🚨 EXPOSED!
 ```
 
 ### 📊 Excessive Data Exposure
@@ -107,7 +117,7 @@ paths:
   /users/{id}:
     get:
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
@@ -171,23 +181,54 @@ api_security:
 
 ---
 
+## ⚙️ Configuration
+
+Create a `config.apishield.json` file in your project root to customize scanning behavior:
+
+```json
+{
+  "ignorePaths": ["/health", "/metrics", "/version", "/internal/*"],
+  "customSensitiveFields": [
+    "internal_token",
+    "legacy_password",
+    "webhook_secret"
+  ],
+  "rules": {
+    "missingAuth": "error",
+    "sensitiveData": "error"
+  }
+}
+```
+
+### Configuration Options
+
+- **`ignorePaths`**: Array of path patterns to skip during scanning (supports `*` wildcards)
+- **`customSensitiveFields`**: Additional field names to flag as sensitive
+- **`rules`**: Control rule severity (`error`, `warn`, `off`)
+
+---
+
 ## 🗺️ Roadmap
 
-### Phase 1 (Current - v0.1.x)
+### Phase 1 (Completed - v0.5.x)
 
 - ✅ OpenAPI 3.x support
 - ✅ Swagger 2.0 support
 - ✅ JSON & YAML parsing
 - ✅ Basic security checks
+- ✅ Postman Collection support
+- ✅ HAR file analysis
+- ✅ Live URL scanning
+- ✅ Custom rule configuration
 
-### Phase 2 (v0.2.x) - Coming Soon
+### Phase 2 (v0.6.x) - Coming Soon
 
-- 🔜 Postman Collection support
-- 🔜 HAR file analysis
-- 🔜 Live URL scanning
-- 🔜 Custom rule configuration
+- 🔜 Enhanced sensitive field detection
+- 🔜 More security rule types
+- 🔜 Better error reporting
+- 🔜 Performance optimizations
 
-### Phase 3 (v0.3.x)
+### Phase 3 (v0.7.x)
 
 - 🔮 GraphQL schema support
 - 🔮 AI-powered test generation
@@ -209,21 +250,22 @@ cd apishield
 npm install
 
 # Test locally
-node index.js scan test-files/swagger2-test.json
+node index.js scan petstore.json
 ```
 
 ---
 
 ## 📖 Supported Formats
 
-| Format | Extension | Status |
-|--------|-----------|--------|
-| OpenAPI 3.0 | `.yaml`, `.yml`, `.json` | ✅ Full support |
-| OpenAPI 3.1 | `.yaml`, `.yml`, `.json` | ✅ Full support |
-| Swagger 2.0 | `.json`, `.yaml` | ✅ Full support |
-| Postman Collection | `.postman_collection.json` | 🔜 Phase 2 |
-| HAR Files | `.har` | 🔜 Phase 2 |
-| GraphQL | `.graphql` | 🔜 Phase 3 |
+| Format             | Extension                  | Status          |
+| ------------------ | -------------------------- | --------------- |
+| OpenAPI 3.0        | `.yaml`, `.yml`, `.json`   | ✅ Full support |
+| OpenAPI 3.1        | `.yaml`, `.yml`, `.json`   | ✅ Full support |
+| Swagger 2.0        | `.json`, `.yaml`           | ✅ Full support |
+| Postman Collection | `.postman_collection.json` | ✅ Full support |
+| HAR Files          | `.har`                     | ✅ Full support |
+| Live URLs          | `https://`, `http://`      | ✅ Full support |
+| GraphQL            | `.graphql`                 | 🔜 Phase 3      |
 
 ---
 
