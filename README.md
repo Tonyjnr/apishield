@@ -17,6 +17,7 @@ APIShield analyzes your OpenAPI/Swagger specs and catches common security issues
 - ⚡ **Lightning fast**: Scans in milliseconds, perfect for CI/CD
 - ⚙️ **Configurable**: Custom sensitive fields, path ignore patterns, rule settings
 - 🏛️ **Compliance modes**: GDPR, CCPA, HIPAA, PCI-DSS regulatory scanning
+- 🛡️ **Threat modeling**: STRIDE-based security education and impact analysis
 - 🎨 **Beautiful output**: Color-coded issues with actionable fixes
 - 🔧 **CI-friendly**: Exits with error code on issues
 
@@ -57,6 +58,9 @@ apishield scan api-spec.yaml --verbose
 
 # Compliance mode (GDPR, CCPA, HIPAA, PCI)
 apishield scan api-spec.yaml --compliance gdpr
+
+# Threat modeling report (STRIDE-based)
+apishield scan api-spec.yaml --threat-model
 ```
 
 ---
@@ -259,6 +263,87 @@ api_security:
   script:
     - npx @tonyjnr/apishield scan openapi.yaml
 ```
+
+---
+
+## 🛡️ Threat Modeling Report
+
+APIShield can generate **STRIDE-based threat models** to help you understand the real-world security implications of your API issues.
+
+### What is STRIDE?
+
+STRIDE is a threat modeling framework that categorizes security threats:
+
+- **S**poofing - Impersonation attacks
+- **T**ampering - Data modification attacks
+- **R**epudiation - Denial of actions
+- **I**nformation Disclosure - Data leakage
+- **D**enial of Service - Service disruption
+- **E**levation of Privilege - Unauthorized access
+
+### How It Works
+
+Instead of just listing issues, threat modeling explains the **attacker impact** and provides **educational context**:
+
+```bash
+# Standard mode - simple issue list
+apishield scan api.yaml
+
+# Threat modeling mode - educational threat analysis
+apishield scan api.yaml --threat-model
+```
+
+### Example Output
+
+**Standard Mode:**
+
+```text
+⚠️  Found 3 security issue(s):
+
+• Missing authentication
+  → Endpoint GET /users/{id} has no security scheme defined.
+  💡 Add a 'security' block to the operation or global spec.
+
+• Sensitive data exposed in response
+  → GET /users/{id} returns: email, phone, password
+  💡 Remove or mask sensitive fields from the response schema.
+```
+
+**Threat Modeling Mode:**
+
+```text
+🛡️  APIShield Threat Model Report
+
+📋 SPOOFING
+1 threat(s) identified
+
+1. Missing authentication
+   → Endpoint GET /users/{id} has no security scheme defined.
+   Impact: An attacker can access or modify resources without authentication.
+   OWASP: API1:2023 - Broken Object Level Authorization
+   🔧 Fix: Add a 'security' block to the operation or global spec.
+
+📋 INFORMATION DISCLOSURE
+1 threat(s) identified
+
+1. Sensitive data exposed in response
+   → GET /users/{id} returns: email, phone, password
+   Impact: PII, secrets, or internal data may be leaked to unauthorized parties.
+   OWASP: API3:2023 - Excessive Data Exposure
+   🔧 Fix: Remove or mask sensitive fields from the response schema.
+
+📊 Threat Summary
+Total threats: 2
+   High: 2
+```
+
+### Benefits
+
+- **🎓 Educational**: Learn why each issue matters
+- **🎯 Contextual**: Understand attacker motivations
+- **📚 Standards-aligned**: Maps to OWASP API Security Top 10
+- **🔍 Categorized**: Groups threats by STRIDE category
+- **📊 Summarized**: Shows threat severity breakdown
 
 ---
 

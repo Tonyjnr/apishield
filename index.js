@@ -16,6 +16,9 @@ import { scanLiveURL, normalizeProbedResults } from "./lib/parsers/live.js";
 // Normalizers & Scanners
 import { normalizeSpec, scanSpec } from "./lib/normalizer.js";
 
+// Reporters
+import { generateThreatModel } from "./lib/reporters/threatModel.js";
+
 /**
  * Detects input type with URL priority
  */
@@ -66,6 +69,12 @@ async function main() {
       type: "string",
       description: "Compliance mode: gdpr, ccpa, hipaa, or pci",
       choices: ["gdpr", "ccpa", "hipaa", "pci"],
+    })
+    .option("threat-model", {
+      alias: "t",
+      type: "boolean",
+      description: "Generate a STRIDE-based threat model report",
+      default: false,
     })
     .check((argv) => {
       const inputFile = argv.file || argv.url || argv.file;
@@ -157,16 +166,29 @@ async function main() {
 
     const issues = scanSpec(normalized, config);
 
-    if (issues.length === 0) {
-      console.log(chalk.green("✅ No high-risk issues found!"));
+    if (argv.threatModel) {
+      // Generate STRIDE-based threat model report
+      generateThreatModel(issues);
+
+      // Exit with error code if threats found
+      if (issues.length > 0) {
+        process.exit(1);
+      }
     } else {
-      console.log(chalk.red(`⚠️  Found ${issues.length} security issue(s):\n`));
-      issues.forEach((issue) => {
-        console.log(chalk.red(`• ${issue.message}`));
-        console.log(chalk.gray(`  → ${issue.detail}`));
-        console.log(chalk.yellow(`  💡 ${issue.fix}\n`));
-      });
-      process.exit(1);
+      // Standard issue reporting
+      if (issues.length === 0) {
+        console.log(chalk.green("✅ No high-risk issues found!"));
+      } else {
+        console.log(
+          chalk.red(`⚠️  Found ${issues.length} security issue(s):\n`)
+        );
+        issues.forEach((issue) => {
+          console.log(chalk.red(`• ${issue.message}`));
+          console.log(chalk.gray(`  → ${issue.detail}`));
+          console.log(chalk.yellow(`  💡 ${issue.fix}\n`));
+        });
+        process.exit(1);
+      }
     }
   } catch (e) {
     console.error(chalk.red("❌ Error:"), e.message);
