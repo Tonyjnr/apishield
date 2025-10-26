@@ -1,5 +1,5 @@
 {
-  "name": "apishield",
+  "name": "@tonyjnr/apishield",
   "version": "0.1.0",
   "description": "API security scanner for indie developers",
   "bin": {
