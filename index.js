@@ -72,8 +72,7 @@ async function main() {
       return true;
     })
     .demandCommand(1, "You must provide a command")
-    .help()
-    .version("0.5.0").argv;
+    .help();
 
   // Resolve input source
   const input = argv.url || argv.file || argv._[1];
