@@ -1,0 +1,12 @@
+{
+  "ignorePaths": ["/health", "/metrics", "/version", "/internal/*"],
+  "customSensitiveFields": [
+    "internal_token",
+    "legacy_password",
+    "webhook_secret"
+  ],
+  "rules": {
+    "missingAuth": "error",
+    "sensitiveData": "error"
+  }
+}

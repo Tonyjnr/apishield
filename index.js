@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+const { loadConfig } = require("./lib/config");
 const fs = require("fs"); // Required for file existence checks
 const path = require("path");
 const chalk = require("chalk");
@@ -75,7 +76,7 @@ async function main() {
     .version("0.5.0").argv;
 
   // Resolve input source
-  const input = argv.url || argv.file || argv.file;
+  const input = argv.url || argv.file || argv._[1];
 
   try {
     const type = detectInputType(input);
@@ -141,7 +142,8 @@ async function main() {
       }
     }
 
-    const issues = scanSpec(normalized);
+    const config = loadConfig();
+    const issues = scanSpec(normalized, config);
 
     if (issues.length === 0) {
       console.log(chalk.green("✅ No high-risk issues found!"));
