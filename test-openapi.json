@@ -1,0 +1,100 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "User Management API",
+    "version": "1.0.0",
+    "description": "Test API for APIShield"
+  },
+  "host": "api.example.com",
+  "basePath": "/v1",
+  "schemes": ["https"],
+  "securityDefinitions": {
+    "Bearer": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header",
+      "description": "JWT token"
+    }
+  },
+  "security": [
+    { "Bearer": [] }
+  ],
+  "paths": {
+    "/users/{id}": {
+      "get": {
+        "summary": "Get user by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User object",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "string" },
+                "username": { "type": "string" },
+                "email": { "type": "string" },
+                "password": { 
+                  "type": "string",
+                  "description": "This should NOT be exposed!"
+                },
+                "apiKey": {
+                  "type": "string",
+                  "description": "User's API key - also sensitive!"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/public/status": {
+      "get": {
+        "summary": "Health check endpoint",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Status OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/users": {
+      "get": {
+        "summary": "List all users (NO SECURITY!)",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "List of users",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": { "type": "string" },
+                  "username": { "type": "string" },
+                  "ssn": { 
+                    "type": "string",
+                    "description": "Social Security Number - VERY sensitive!"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
