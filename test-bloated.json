@@ -1,0 +1,77 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Test API with Bloated Response",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/users/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "string" },
+                    "username": { "type": "string" },
+                    "email": { "type": "string" },
+                    "password": { "type": "string" },
+                    "firstName": { "type": "string" },
+                    "lastName": { "type": "string" },
+                    "middleName": { "type": "string" },
+                    "nickname": { "type": "string" },
+                    "title": { "type": "string" },
+                    "department": { "type": "string" },
+                    "manager": { "type": "string" },
+                    "phone": { "type": "string" },
+                    "mobile": { "type": "string" },
+                    "fax": { "type": "string" },
+                    "address": { "type": "string" },
+                    "city": { "type": "string" },
+                    "state": { "type": "string" },
+                    "zipCode": { "type": "string" },
+                    "country": { "type": "string" },
+                    "timezone": { "type": "string" },
+                    "locale": { "type": "string" },
+                    "dateOfBirth": { "type": "string" },
+                    "ssn": { "type": "string" },
+                    "creditCard": { "type": "string" },
+                    "cvv": { "type": "string" },
+                    "expiryDate": { "type": "string" },
+                    "bankAccount": { "type": "string" },
+                    "routingNumber": { "type": "string" },
+                    "salary": { "type": "number" },
+                    "bonus": { "type": "number" },
+                    "stockOptions": { "type": "number" },
+                    "hireDate": { "type": "string" },
+                    "terminationDate": { "type": "string" },
+                    "employeeId": { "type": "string" },
+                    "badgeNumber": { "type": "string" },
+                    "accessLevel": { "type": "string" },
+                    "permissions": { "type": "array" },
+                    "lastLogin": { "type": "string" },
+                    "loginCount": { "type": "number" },
+                    "failedLogins": { "type": "number" },
+                    "isActive": { "type": "boolean" },
+                    "isLocked": { "type": "boolean" },
+                    "twoFactorEnabled": { "type": "boolean" },
+                    "backupCodes": { "type": "array" },
+                    "recoveryEmail": { "type": "string" },
+                    "securityQuestions": { "type": "array" },
+                    "preferences": { "type": "object" },
+                    "metadata": { "type": "object" },
+                    "createdAt": { "type": "string" },
+                    "updatedAt": { "type": "string" },
+                    "deletedAt": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

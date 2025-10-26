@@ -103,7 +103,34 @@ Scans response schemas for fields that shouldn't be exposed:
 
 ### 📊 Excessive Data Exposure
 
-Warns when GET endpoints return too many fields (>20), suggesting pagination or field filtering.
+Warns when endpoints return too many fields (>20), suggesting pagination or field filtering to reduce attack surface.
+
+```yaml
+# ❌ Will flag this (51 fields!)
+/users/{id}:
+  get:
+    responses:
+      "200":
+        content:
+          application/json:
+            schema:
+              properties:
+                id: string
+                username: string
+                email: string
+                password: string
+                firstName: string
+                lastName: string
+                # ... 45 more fields!
+```
+
+**Output:**
+
+```text
+• Excessive data exposure
+  → GET /users/{id} returns 51 fields in response
+  💡 Reduce response fields or implement field filtering (e.g., ?fields=id,name)
+```
 
 ---
 
