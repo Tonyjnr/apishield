@@ -1,0 +1,27 @@
+{
+  "name": "apishield",
+  "version": "0.1.0",
+  "description": "API security scanner for indie developers",
+  "bin": {
+    "apishield": "./index.js"
+  },
+  "files": [
+    "index.js"
+  ],
+  "keywords": [
+    "api",
+    "security",
+    "openapi",
+    "indie",
+    "cli"
+  ],
+  "preferGlobal": true,
+  "type": "commonjs",
+  "author": "Onuzulike Anthony Ifechukwu",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "js-yaml": "^4.1.0",
+    "yargs": "^18.0.0"
+  }
+}
