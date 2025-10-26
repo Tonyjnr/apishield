@@ -1,0 +1,47 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Test API with GDPR Fields",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/users/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "string" },
+                    "username": { "type": "string" },
+                    "email": { "type": "string" },
+                    "phone": { "type": "string" },
+                    "address": { "type": "string" },
+                    "city": { "type": "string" },
+                    "country": { "type": "string" },
+                    "date_of_birth": { "type": "string" },
+                    "ip_address": { "type": "string" },
+                    "location": { "type": "string" },
+                    "latitude": { "type": "number" },
+                    "longitude": { "type": "number" },
+                    "ssn": { "type": "string" },
+                    "passport_number": { "type": "string" },
+                    "driver_license": { "type": "string" },
+                    "password": { "type": "string" },
+                    "api_key": { "type": "string" },
+                    "credit_card": { "type": "string" },
+                    "cvv": { "type": "string" },
+                    "medical_record": { "type": "string" },
+                    "fingerprint": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

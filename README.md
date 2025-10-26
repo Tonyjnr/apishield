@@ -16,6 +16,7 @@ APIShield analyzes your OpenAPI/Swagger specs and catches common security issues
 - 🚨 **Security checks**: Missing auth, sensitive data exposure, excessive data leakage
 - ⚡ **Lightning fast**: Scans in milliseconds, perfect for CI/CD
 - ⚙️ **Configurable**: Custom sensitive fields, path ignore patterns, rule settings
+- 🏛️ **Compliance modes**: GDPR, CCPA, HIPAA, PCI-DSS regulatory scanning
 - 🎨 **Beautiful output**: Color-coded issues with actionable fixes
 - 🔧 **CI-friendly**: Exits with error code on issues
 
@@ -53,6 +54,9 @@ apishield scan https://api.example.com/openapi.json
 
 # Verbose mode
 apishield scan api-spec.yaml --verbose
+
+# Compliance mode (GDPR, CCPA, HIPAA, PCI)
+apishield scan api-spec.yaml --compliance gdpr
 ```
 
 ---
@@ -134,7 +138,57 @@ Warns when endpoints return too many fields (>20), suggesting pagination or fiel
 
 ---
 
-## 🎯 Real-World Example
+## 🏛️ Compliance Mode
+
+APIShield supports regulatory compliance scanning to help you meet specific legal requirements:
+
+### Supported Frameworks
+
+- **GDPR** (`--compliance gdpr`) - European data protection
+- **CCPA** (`--compliance ccpa`) - California privacy rights
+- **HIPAA** (`--compliance hipaa`) - Healthcare data protection
+- **PCI-DSS** (`--compliance pci`) - Payment card industry standards
+
+### How It Works
+
+Compliance mode filters findings to show only fields regulated by the specified framework:
+
+```bash
+# Standard mode - shows ALL sensitive fields
+apishield scan api.yaml
+
+# GDPR mode - shows only GDPR-regulated fields
+apishield scan api.yaml --compliance gdpr
+```
+
+### Example Output
+
+**Standard Mode:**
+
+```text
+• Sensitive data exposed in response
+  → GET /users/{id} returns: email, phone, password, credit_card, ssn
+  💡 Remove or mask sensitive fields from the response schema.
+```
+
+**GDPR Mode:**
+
+```text
+• GDPR compliance violation
+  → GET /users/{id} exposes GDPR-regulated data: email, phone, ssn
+  💡 Remove or mask GDPR-regulated fields from the response schema.
+```
+
+### Field Classifications
+
+| Category                              | GDPR | CCPA | HIPAA | PCI-DSS |
+| ------------------------------------- | ---- | ---- | ----- | ------- |
+| Personal Info (email, phone, address) | ✅   | ✅   | ❌    | ❌      |
+| Financial Data (credit_card, cvv)     | ❌   | ✅   | ❌    | ✅      |
+| Health Data (medical_record)          | ✅   | ✅   | ✅    | ❌      |
+| Authentication (password, token)      | ❌   | ❌   | ❌    | ✅      |
+
+---
 
 **Input** (`api.yaml`):
 

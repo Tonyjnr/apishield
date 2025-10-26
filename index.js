@@ -61,6 +61,12 @@ async function main() {
       description: "Show detailed output",
       default: false,
     })
+    .option("compliance", {
+      alias: "c",
+      type: "string",
+      description: "Compliance mode: gdpr, ccpa, hipaa, or pci",
+      choices: ["gdpr", "ccpa", "hipaa", "pci"],
+    })
     .check((argv) => {
       const inputFile = argv.file || argv.url || argv.file;
       if (!inputFile) {
@@ -143,6 +149,12 @@ async function main() {
     }
 
     const config = loadConfig();
+
+    // Merge CLI compliance option with config
+    if (argv.compliance) {
+      config.compliance = argv.compliance;
+    }
+
     const issues = scanSpec(normalized, config);
 
     if (issues.length === 0) {
