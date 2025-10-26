@@ -1,6 +1,6 @@
 {
   "name": "@tonyjnr/apishield",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "API security scanner for indie developers — detects auth gaps, sensitive data leaks, and more in OpenAPI/Swagger specs.",
   "bin": {
     "apishield": "./index.js"
